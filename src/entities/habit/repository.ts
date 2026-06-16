@@ -40,6 +40,22 @@ export const habitRepository = {
     });
   },
 
+  /** Hábitos ativos completos (id + publicId), para a página de hábitos. */
+  async listActiveFull(userId: number) {
+    return prisma.habit.findMany({
+      where: { userId, deletedAt: null, active: true },
+      select: {
+        id: true,
+        publicId: true,
+        name: true,
+        description: true,
+        frequency: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "asc" },
+    });
+  },
+
   async getByPublicId(userId: number, publicId: string) {
     return prisma.habit.findFirst({
       where: { userId, publicId, deletedAt: null },
