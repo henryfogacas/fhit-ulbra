@@ -37,8 +37,8 @@ export function ConfirmDialog({
     <>
       {trigger(() => setOpen(true))}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 p-4">
+          <div className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
             <h3 className="text-lg font-semibold text-foreground">{title}</h3>
             {description && (
               <p className="mt-2 text-sm text-foreground/60">{description}</p>

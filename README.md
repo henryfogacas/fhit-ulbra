@@ -6,6 +6,10 @@
 
 Treinos, hábitos, peso e IMC em uma única plataforma, com dashboards de evolução.
 
+A documentação de entrega está em /docs/entrega.md
+
+url pública: https://fhit.vercel.app
+
 </div>
 
 ---
@@ -22,18 +26,18 @@ Projeto Tecnológico — ULBRA.
 
 ## 🚀 Tecnologias
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Framework | **Next.js 16** (App Router) + React 19 |
-| Linguagem | **TypeScript** |
-| Estilização | **Tailwind CSS 4** |
-| Banco de dados | **PostgreSQL** (NeonDB em produção) |
-| ORM | **Prisma 6** |
-| Autenticação | **NextAuth.js** (credenciais + JWT) |
-| Validação | **Zod** (cliente e servidor) |
-| Formulários | **React Hook Form** |
-| Gráficos | **Recharts** |
-| Hospedagem | **Vercel** (deploy contínuo via GitHub) |
+| Camada         | Tecnologia                              |
+| -------------- | --------------------------------------- |
+| Framework      | **Next.js 16** (App Router) + React 19  |
+| Linguagem      | **TypeScript**                          |
+| Estilização    | **Tailwind CSS 4**                      |
+| Banco de dados | **PostgreSQL** (NeonDB em produção)     |
+| ORM            | **Prisma 6**                            |
+| Autenticação   | **NextAuth.js** (credenciais + JWT)     |
+| Validação      | **Zod** (cliente e servidor)            |
+| Formulários    | **React Hook Form**                     |
+| Gráficos       | **Recharts**                            |
+| Hospedagem     | **Vercel** (deploy contínuo via GitHub) |
 
 ## 📦 Pré-requisitos
 
@@ -68,11 +72,11 @@ cp .env.example .env
 
 Preencha os valores:
 
-| Variável | Descrição |
-|----------|-----------|
-| `DATABASE_URL` | String de conexão do PostgreSQL |
+| Variável          | Descrição                                                        |
+| ----------------- | ---------------------------------------------------------------- |
+| `DATABASE_URL`    | String de conexão do PostgreSQL                                  |
 | `NEXTAUTH_SECRET` | Chave para assinar a sessão — gere com `openssl rand -base64 32` |
-| `NEXTAUTH_URL` | `http://localhost:3000` em desenvolvimento |
+| `NEXTAUTH_URL`    | `http://localhost:3000` em desenvolvimento                       |
 
 ### 4. Aplicar as migrations no banco
 
@@ -100,15 +104,15 @@ yarn start   # inicia o servidor de produção
 
 ## 📜 Scripts disponíveis
 
-| Script | Ação |
-|--------|------|
-| `yarn dev` | Servidor de desenvolvimento |
-| `yarn build` | Build de produção (Prisma generate + Next build) |
-| `yarn start` | Servidor de produção |
-| `yarn lint` | Análise estática (ESLint) |
-| `yarn db:migrate` | Cria e aplica migrations (dev) |
-| `yarn db:deploy` | Aplica migrations (produção) |
-| `yarn db:studio` | Abre o Prisma Studio |
+| Script            | Ação                                             |
+| ----------------- | ------------------------------------------------ |
+| `yarn dev`        | Servidor de desenvolvimento                      |
+| `yarn build`      | Build de produção (Prisma generate + Next build) |
+| `yarn start`      | Servidor de produção                             |
+| `yarn lint`       | Análise estática (ESLint)                        |
+| `yarn db:migrate` | Cria e aplica migrations (dev)                   |
+| `yarn db:deploy`  | Aplica migrations (produção)                     |
+| `yarn db:studio`  | Abre o Prisma Studio                             |
 
 ## 🗂️ Estrutura do projeto
 
