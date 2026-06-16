@@ -1,0 +1,154 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  publicId       String    @unique @default(cuid())
+  name           String    @db.VarChar(255)
+  email          String    @unique @db.VarChar(255)
+  password       String    @db.VarChar(255)
+  heightCm       Float?
+  termAccepted   Boolean   @default(false)
+  termAcceptedAt DateTime?
+
+  workoutSessions  WorkoutSession[]
+  workoutTemplates WorkoutTemplate[]
+  habits           Habit[]
+  weightLogs       WeightLog[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+}
+
+// Sessão de treino realizada pelo usuário (UC04, UC05, UC06)
+model WorkoutSession {
+  id           Int      @id @default(autoincrement())
+  publicId     String   @unique @default(cuid())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  date         DateTime @db.Date
+  muscleGroups String[]
+  notes        String?  @db.Text
+
+  exercises Exercise[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@index([userId])
+}
+
+// Exercício pertencente a uma sessão de treino
+model Exercise {
+  id               Int            @id @default(autoincrement())
+  publicId         String         @unique @default(cuid())
+  workoutSessionId Int
+  workoutSession   WorkoutSession @relation(fields: [workoutSessionId], references: [id], onDelete: Cascade)
+  name             String         @db.VarChar(255)
+  sets             Int
+  reps             Int
+  weightKg         Float?
+  order            Int            @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([workoutSessionId])
+}
+
+// Modelo de treino reutilizável (UC07)
+model WorkoutTemplate {
+  id           Int      @id @default(autoincrement())
+  publicId     String   @unique @default(cuid())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  name         String   @db.VarChar(255)
+  muscleGroups String[]
+
+  exercises TemplateExercise[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@index([userId])
+}
+
+// Exercício padrão de um modelo de treino
+model TemplateExercise {
+  id                Int             @id @default(autoincrement())
+  publicId          String          @unique @default(cuid())
+  workoutTemplateId Int
+  workoutTemplate   WorkoutTemplate @relation(fields: [workoutTemplateId], references: [id], onDelete: Cascade)
+  name              String          @db.VarChar(255)
+  sets              Int
+  reps              Int
+  order             Int             @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([workoutTemplateId])
+}
+
+// Hábito diário recorrente do usuário (UC08, UC11)
+model Habit {
+  id          Int     @id @default(autoincrement())
+  publicId    String  @unique @default(cuid())
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id])
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  frequency   Int[] // dias da semana: 0 (domingo) a 6 (sábado)
+  active      Boolean @default(true)
+
+  completions HabitCompletion[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@index([userId])
+}
+
+// Registro de conclusão de um hábito em um dia (UC09, UC10)
+// Preservado para auditoria mesmo após exclusão do hábito.
+model HabitCompletion {
+  id        Int      @id @default(autoincrement())
+  publicId  String   @unique @default(cuid())
+  habitId   Int
+  habit     Habit    @relation(fields: [habitId], references: [id])
+  date      DateTime @db.Date
+  completed Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([habitId, date])
+  @@index([habitId])
+}
+
+// Registro de peso corporal ao longo do tempo (UC12, UC14)
+model WeightLog {
+  id       Int      @id @default(autoincrement())
+  publicId String   @unique @default(cuid())
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  weightKg Float
+  date     DateTime @db.Date
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  @@index([userId])
+}
