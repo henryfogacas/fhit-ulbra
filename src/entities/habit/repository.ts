@@ -32,6 +32,14 @@ export const habitRepository = {
     });
   },
 
+  /** Hábitos ativos com id interno e datas, para cálculo de streak/dashboards. */
+  async listActiveForStreak(userId: number) {
+    return prisma.habit.findMany({
+      where: { userId, deletedAt: null, active: true },
+      select: { id: true, frequency: true, createdAt: true },
+    });
+  },
+
   async getByPublicId(userId: number, publicId: string) {
     return prisma.habit.findFirst({
       where: { userId, publicId, deletedAt: null },

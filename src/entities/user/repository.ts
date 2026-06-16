@@ -44,6 +44,13 @@ export const userRepository = {
     });
   },
 
+  async getHeightById(userId: number) {
+    return prisma.user.findUnique({
+      where: { id: userId },
+      select: { heightCm: true },
+    });
+  },
+
   async updateHeight(userId: number, heightCm: number) {
     return prisma.user.update({
       where: { id: userId },

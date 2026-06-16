@@ -44,7 +44,7 @@ export function AppShell({
     <div className="flex min-h-screen">
       {/* Sidebar — desktop */}
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r border-black/5 bg-white px-4 py-6 md:flex">
-        <Image src="/images/logo.png" alt="Fhit" width={36} height={36} />
+        <Image src="/images/logo.png" alt="Fhit" width={55} height={55} />
 
         <nav className="flex flex-1 flex-col gap-1">
           {NAV.map((item) => {
@@ -82,7 +82,7 @@ export function AppShell({
         {/* Topbar — mobile */}
         <header className="sticky top-0 z-30 flex items-center justify-between border-b border-black/5 bg-white px-4 py-3 md:hidden">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <Image src="/images/logo.png" alt="Fhit" width={28} height={28} />
+            <Image src="/images/logo.png" alt="Fhit" width={55} height={55} />
           </Link>
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
